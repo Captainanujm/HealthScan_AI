@@ -1,6 +1,10 @@
 
 import emailjs from 'emailjs-com';
 
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+const USER_ID = process.env.NEXT_PUBLIC_EMAILJS_USER_ID!;
+
 export const sendEmail = async (
   name: string,
   email: string,
@@ -8,14 +12,14 @@ export const sendEmail = async (
 ) => {
   try {
     const result = await emailjs.send(
-      'service_6mh1vxg',        
-      'template_iba1b3c',        
+      SERVICE_ID,
+      TEMPLATE_ID,
       {
         name,
         email,
         message,
       },
-      'O4O0mDtPKZg6QPtOV'        
+      USER_ID
     );
     return result;
   } catch (error) {

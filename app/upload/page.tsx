@@ -2,7 +2,9 @@
 import React, { useState } from 'react'
 import {useRouter} from "next/navigation"
 import Tesseract from 'tesseract.js';
+import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
+
 const UploadPage = () => {
   const router=useRouter();
   const [selectedFile,setSelectedFile]=useState<File|null>(null);
@@ -10,35 +12,27 @@ const UploadPage = () => {
   const [extractedText,setExtractedText]=useState("");
   function handleFileChange(e:React.ChangeEvent<HTMLInputElement>){
       const file=e.target.files?.[0];
-      if(file&&(file.type.startsWith("image/"))||file?.type.startsWith("")){
+      if(file&&(file.type.startsWith("image/"))){
         setSelectedFile(file);
       }else{
         toast.error("Please upload image file only");
       }
   }
-  function handleOCR() {
-  if (selectedFile) {
-    setLoading(true);
-    Tesseract.recognize(selectedFile, "eng+hin", {
-      logger: m => console.log(m),
-    }).then((result) => {
-      const extracted = result.data.text;
-      setExtractedText(extracted);
-      localStorage.setItem('ocrText', extracted);
-
-      const response = localStorage.getItem('ocrText');
-      console.log("✅ OCR Extracted:", response);
-
-      setLoading(false);
-      router.push('/analyze'); // push after everything
-    }).catch((err) => {
-      setLoading(false);
-      toast.error("OCR failed: " + err.message);
-    });
-  } else {
-    toast.error("Please upload an image first");
+ async function handleFileUploadExtract(){
+  if (!selectedFile) {
+    toast.error("Please select an image first.");
+    return;
   }
-}
+  const formData=new FormData();
+formData.append("image",selectedFile);
+const res=await axios.post("http://localhost:3000/upload",formData);
+
+console.log("Response from server:", res.data);
+localStorage.setItem("ocrText",res.data);
+setExtractedText(res.data);
+router.push("/analyze");
+toast.success("✅ OCR Extracted Successfully!");
+ }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4">
@@ -67,10 +61,11 @@ const UploadPage = () => {
           {selectedFile && (
             <div className="flex flex-col md:flex-row gap-6 items-center justify-between mt-2">
               <button
-                onClick={handleOCR}
+                onClick={handleFileUploadExtract}
                 className="bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:from-green-500 hover:to-green-700 transition w-full md:w-auto"
               >
-                <span role="img" aria-label="extract">🧾</span> Extract Text
+                <span onClick={()=>{
+                }} role="img" aria-label="extract">🧾</span> Analyze with medical AI
               </button>
 
               <img
@@ -81,22 +76,6 @@ const UploadPage = () => {
             </div>
           )}
 
-          {loading && (
-            <div className="flex items-center gap-2 text-blue-700 font-semibold animate-pulse">
-              <span className="text-xl">⏳</span> Processing image...
-            </div>
-          )}
-
-          {extractedText && (
-            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow-inner">
-              <h3 className="text-lg font-bold text-blue-700 mb-2 flex items-center gap-2"><span role="img" aria-label="text">📝</span> Extracted Text:</h3>
-              <textarea
-                readOnly
-                value={extractedText}
-                className="w-full h-40 p-3 border-2 border-blue-200 rounded-lg bg-blue-100 text-gray-800 text-base font-mono resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-          )}
         </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
