@@ -29,12 +29,12 @@ function generateReadableSummary(prescriptionData) {
   let summary = "📄 Your Prescription Summary:\n\n";
 
   prescriptionData.forEach((item, index) => {
-    summary += `${index + 1}️⃣ ${item.medicine}\n`;
+    summary += `${index + 1}- ${item.medicine}\n`;
     summary += `   • Dosage: ${item.dosage}\n`;
     summary += `   • Timing: ${item.timing.join(", ")}\n\n`;
   });
 
-  summary += `⏳ Duration: 5 Days\nPlease take medicines as per timing. Get well soon!`;
+  summary += `⏳ Duration: 7 Days\nPlease take medicines as per timing. Get well soon!`;
 
   return summary;
 }
