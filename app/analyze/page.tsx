@@ -3,38 +3,61 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ToastContainer,toast} from 'react-toastify';
 import axios from 'axios';
+import { useGlobalContext } from '../context/Globalcontext';
 
 export default function Analyze() {
-  const [aisummary, setAisummary] = useState<string>('');
+  const [aisummary, setAisummary] = useState<string>("");
+  const { summary, setsummary, email, extractedText, imageURL } = useGlobalContext();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-useEffect(() => {
-  setLoading(true);
-  const fetchAnalysis = async () => {
-    const ocrText = localStorage.getItem("ocrText");
 
-    if (!ocrText) {
-      toast.error("Please upload image first");
-      router.push("/upload");
-      return;
-    }
-    try {
-      const response = await axios.post("http://localhost:3000/analyze", {text:ocrText}, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const jsonData = response.data.summary;
-      setAisummary(jsonData);
-    } catch (error) {
-      toast.error("Failed to analyze the text.");
-    }finally{
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    setLoading(true);
+    const fetchAnalysis = async () => {
+      const ocrText = localStorage.getItem("ocrText");
+      if (!ocrText) {
+        toast.error("Please upload image first");
+        router.push("/upload");
+        return;
+      }
+      try {
+        const response = await axios.post("http://localhost:3000/analyze", { text: ocrText }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        // jsonData is the readable summary string for UI
+        const jsonData = response.data.summary;
+        setAisummary(jsonData);
+        setsummary(jsonData);
 
-  fetchAnalysis();
-}, []);
+        // Use the parsed array from backend
+        const summaryArray = response.data.parsed || [];
+        // Map Gemini keys to your schema keys
+        const mappedSummary = Array.isArray(summaryArray)
+          ? summaryArray.map(item => ({
+              medicinename: item.medicine || item.medicinename || '',
+              dosage: item.dosage || '',
+              frequency: item.timing || item.frequency || []
+            }))
+          : [];
+
+        const res = await axios.post("http://localhost:3000/save", {
+          email,
+          imageURL,
+          extractedText,
+          summary: mappedSummary
+        });
+        const data = res.data;
+        console.log("✅ Saved Successfully:", data);
+      } catch (error) {
+        toast.error("Failed to analyze the text.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAnalysis();
+  }, []);
   
 
   return (

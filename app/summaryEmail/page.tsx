@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import { sendEmail } from '@/lib/sendEmail';
 import { toast } from 'react-toastify';
+import { useGlobalContext } from '../context/Globalcontext';
 
 export default function EmailForm() {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const {email, setEmail} = useGlobalContext();
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState('');
 
