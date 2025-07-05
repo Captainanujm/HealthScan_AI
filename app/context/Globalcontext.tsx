@@ -12,8 +12,6 @@ interface GlobalContextType {
   setEmail: (email: string) => void;
   summary: MedicineSummary[];
   setsummary: (summary: MedicineSummary[]) => void;
-  extractedText: string;
-  setExtractedText: (text: string) => void;
   imageURL: string;
   setImageURL: (url:string) => void;
 }
@@ -25,12 +23,11 @@ const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [email, setEmail] = useState<string>("");
   const [summary, setsummary] = useState<MedicineSummary[]>([]);
-  const [extractedText,setExtractedText] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
 
   return (
     <GlobalContext.Provider
-      value={{ email, setEmail, summary, setsummary, extractedText, setExtractedText, imageURL, setImageURL }}
+      value={{ email, setEmail, summary, setsummary, imageURL, setImageURL }}
     >
       {children}
     </GlobalContext.Provider>

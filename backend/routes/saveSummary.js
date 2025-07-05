@@ -3,10 +3,11 @@ import Prescription from "../models/Prescription.js";
 
 
 const saveSummary = async (req, res) => {
+  console.log("💾 Request Body:", req.body);
   const { imageURL, extractedText, summary, email } = req.body;
-  if (!imageURL || !extractedText || !summary || !email) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
+  // if (!imageURL || !extractedText || !summary || !email) {
+  //   return res.status(400).json({ error: "All fields are required" });
+  // }
 
   const newPrescription = new Prescription({
     imageURL,

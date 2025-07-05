@@ -10,7 +10,7 @@ const UploadPage = () => {
   const router=useRouter();
   const [selectedFile,setSelectedFile]=useState<File|null>(null);
   const [loading,setLoading]=useState(false);
-  const {extractedText,setExtractedText}=useGlobalContext();
+
   const {imageURL,setImageURL}=useGlobalContext();
   function handleFileChange(e:React.ChangeEvent<HTMLInputElement>){
       const file=e.target.files?.[0];
@@ -32,7 +32,6 @@ const res=await axios.post("http://localhost:3000/upload",formData);
 console.log("Response from server:", res.data);
 localStorage.setItem("ocrText",res.data.rawText);
 setImageURL(res.data.imageURL);
-setExtractedText(res.data);
 router.push("/analyze");
 toast.success("✅ OCR Extracted Successfully!");
  }

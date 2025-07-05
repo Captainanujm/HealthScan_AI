@@ -7,7 +7,7 @@ import { useGlobalContext } from '../context/Globalcontext';
 
 export default function Analyze() {
   const [aisummary, setAisummary] = useState<string>("");
-  const { summary, setsummary, email, extractedText, imageURL } = useGlobalContext();
+  const { summary, setsummary, email, imageURL } = useGlobalContext();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -26,30 +26,22 @@ export default function Analyze() {
             'Content-Type': 'application/json',
           },
         });
-        // jsonData is the readable summary string for UI
+       
         const jsonData = response.data.summary;
+        console.log("Summary freq",jsonData[0].frequency);
+        const parsedArray = response.data.parsed || [];
         setAisummary(jsonData);
-        setsummary(jsonData);
+        setsummary(parsedArray);
 
-        // Use the parsed array from backend
-        const summaryArray = response.data.parsed || [];
-        // Map Gemini keys to your schema keys
-        const mappedSummary = Array.isArray(summaryArray)
-          ? summaryArray.map(item => ({
-              medicinename: item.medicine || item.medicinename || '',
-              dosage: item.dosage || '',
-              frequency: item.timing || item.frequency || []
-            }))
-          : [];
 
+    
         const res = await axios.post("http://localhost:3000/save", {
-          email,
+          email:"captainanuj2004@gmail.com",
           imageURL,
-          extractedText,
-          summary: mappedSummary
+          summary: parsedArray
         });
         const data = res.data;
-        console.log("✅ Saved Successfully:", data);
+        console.log(" Saved Successfully:", data);
       } catch (error) {
         toast.error("Failed to analyze the text.");
       } finally {
