@@ -26,16 +26,12 @@ export default function Analyze() {
             'Content-Type': 'application/json',
           },
         });
-       
-        const jsonData = response.data.summary;
+       const jsonData = response.data.summary;
         console.log("Summary freq",jsonData[0].frequency);
         const parsedArray = response.data.parsed || [];
         setAisummary(jsonData);
         setsummary(parsedArray);
-
-
-    
-        const res = await axios.post("http://localhost:3000/save", {
+          const res = await axios.post("http://localhost:3000/save", {
           email:"captainanuj2004@gmail.com",
           imageURL,
           summary: parsedArray

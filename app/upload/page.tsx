@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useRouter} from "next/navigation"
 import Tesseract from 'tesseract.js';
 import axios from "axios";
@@ -7,10 +7,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useGlobalContext } from '../context/Globalcontext';
 
 const UploadPage = () => {
+
   const router=useRouter();
   const [selectedFile,setSelectedFile]=useState<File|null>(null);
   const [loading,setLoading]=useState(false);
-
+useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    }
+  }, []);
   const {imageURL,setImageURL}=useGlobalContext();
   function handleFileChange(e:React.ChangeEvent<HTMLInputElement>){
       const file=e.target.files?.[0];
