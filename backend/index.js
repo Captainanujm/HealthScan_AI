@@ -10,11 +10,14 @@ import { extractMedicinesFromText } from './gemini/extractMedicines.js';
 import { parseGeminiResult, generateReadableSummary } from './gemini/parseGeminiResult.js';
 import saveSummary from "./routes/saveSummary.js";
 import mongoose from "mongoose";
+import { login, signup } from "./routes/auth.js";
 
 const app=express();
 app.use(express.json());
 app.use(cors());
 app.use("/save",saveSummary);
+app.use("/api/signup",signup);
+app.use("/api/login",login);
 const dbConnect = ()=>{
   mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -27,6 +30,8 @@ const dbConnect = ()=>{
 }
 dbConnect();
 app.post("/save", saveSummary);
+app.post("/api/signup",signup);
+app.post("/api/login",login);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
