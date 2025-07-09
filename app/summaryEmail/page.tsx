@@ -14,6 +14,7 @@ export default function EmailForm() {
   useEffect(() => {
     const savedSummary = localStorage.getItem('summaryForEmail') || '';
     setSummary(savedSummary);
+    
   }, []);
 
   const handleSend = async () => {
@@ -24,7 +25,8 @@ export default function EmailForm() {
     setLoading(true);
     try {
       await sendEmail(name, email, summary);
-      toast.success('📧 Email sent successfully!');
+      toast.success('Email sent successfully!');
+      localStorage.removeItem("summaryForEmail");
     } catch (err) {
       console.error(err);
       toast.error('Failed to send email');

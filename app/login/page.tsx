@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { useGlobalContext } from '../context/Globalcontext';
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const router = useRouter();
-
+const {setEmail} = useGlobalContext();
   const handleLogin = async (e: any) => {
     e.preventDefault();
+    
+    setEmail(form.email);
     const res = await fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

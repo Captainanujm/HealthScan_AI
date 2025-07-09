@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useGlobalContext } from "../context/Globalcontext";
 interface Medicine {
   medicinename: string;
   dosage: string;
@@ -13,11 +15,17 @@ interface Prescription {
   summary: Medicine[];
 }
 const Dashboard = () => {
+    const router = useRouter();
   const [data, setData] = useState<Prescription[]>([]);
   const [viewMode, setViewMode] = useState("summary");
-  const email = "captainanuj2004@gmail.com"; // Replace with logged in user's email
+  
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if(!token){
+        router.push("/login");
+    }
+    const email= localStorage.getItem("email");
     axios
       .get(`http://localhost:3000/history/${email}`)
       .then((res) => setData(res.data))

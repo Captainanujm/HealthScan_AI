@@ -32,7 +32,7 @@ export default function Analyze() {
         setAisummary(jsonData);
         setsummary(parsedArray);
           const res = await axios.post("http://localhost:3000/save", {
-          email:"captainanuj2004@gmail.com",
+          email:localStorage.getItem('email'),
           imageURL,
           summary: parsedArray
         });
@@ -74,6 +74,7 @@ export default function Analyze() {
               className="mt-6 w-full md:w-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:scale-105 hover:from-blue-600 hover:to-pink-600 transition-transform duration-200"
               onClick={() => {
                 localStorage.setItem('summaryForEmail', aisummary);
+                // setsummary(aisummary);
                 router.push('/summaryEmail');
               }}
             >
