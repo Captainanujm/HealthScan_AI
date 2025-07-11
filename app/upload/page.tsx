@@ -55,13 +55,7 @@ const UploadPage = () => {
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4">
-   
-      <button
-        onClick={handleLogout}
-        className="absolute top-6 right-6 bg-red-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition"
-      >
-        Logout
-      </button>
+  
 
      
       <div className="w-full max-w-2xl mx-auto bg-white/20 backdrop-blur-2xl shadow-2xl rounded-3xl p-8 border border-white/30 text-gray-800">

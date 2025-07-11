@@ -40,7 +40,6 @@ function generateReadableSummary(prescriptionData) {
   return summary;
 }
 
-// --- Gemini API call ---
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
 dotenv.config();
