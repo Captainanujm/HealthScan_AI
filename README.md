@@ -66,8 +66,7 @@ npm start
 ##  Contact
 
 Email: [captainanuj2004@gmail.com](mailto:captainanuj2004@gmail.com)  
-GitHub: [Captainanujm](https://github.com/Captainanujm)  
-LinkedIn: [Anuj Mishra](https://linkedin.com/in/anuj-mishra-85029724b)
+
 
 
 
