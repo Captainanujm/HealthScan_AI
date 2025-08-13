@@ -56,7 +56,7 @@ app.post("/upload",upload.single("image"),(req,res)=>{
         res.send("No file uploaded");
         
     }else{
-      const imageURL=`http://localhost:${PORT}/uploads/${req.file.filename}`;
+      const imageURL=`https://healthscan-ai-2.onrender.com/uploads/${req.file.filename}`;
        Tesseract.recognize(req.file.path,'eng+hin',{ logger:info=>console.log(info) }).then((result) => {
         const extractedText = result.data.text;
         res.send({
