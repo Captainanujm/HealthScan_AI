@@ -45,7 +45,7 @@ const UploadPage = () => {
     }
     const formData = new FormData();
     formData.append('image', selectedFile);
-    const res = await axios.post('http://localhost:3000/upload', formData);
+    const res = await axios.post('https://healthscan-ai-2.onrender.com/upload', formData);
     console.log('Response from server:', res.data);
     localStorage.setItem('ocrText', res.data.rawText);
     setImageURL(res.data.imageURL);

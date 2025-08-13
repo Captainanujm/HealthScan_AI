@@ -10,7 +10,7 @@ export default function Signup() {
 
   const handleSignup = async (e: any) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3000/signup', {
+    const res = await fetch('https://healthscan-ai-2.onrender.com/api/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),

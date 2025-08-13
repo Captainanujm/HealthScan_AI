@@ -27,7 +27,7 @@ const Dashboard = () => {
     const email = localStorage.getItem('email');
 
     axios
-      .get(`http://localhost:3000/history/${email}`)
+      .get(`https://healthscan-ai-2.onrender.com/history/${email}`)
       .then((res) => setData(res.data))
       .catch((err) => console.error('Error fetching data', err));
   }, []);

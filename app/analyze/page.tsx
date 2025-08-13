@@ -21,7 +21,7 @@ export default function Analyze() {
         return;
       }
       try {
-        const response = await axios.post("http://localhost:3000/analyze", { text: ocrText }, {
+        const response = await axios.post("https://healthscan-ai-2.onrender.com/analyze", { text: ocrText }, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -31,7 +31,7 @@ export default function Analyze() {
         const parsedArray = response.data.parsed || [];
         setAisummary(jsonData);
         setsummary(parsedArray);
-          const res = await axios.post("http://localhost:3000/save", {
+          const res = await axios.post("https://healthscan-ai-2.onrender.com/save", {
           email:localStorage.getItem('email'),
           imageURL,
           summary: parsedArray
