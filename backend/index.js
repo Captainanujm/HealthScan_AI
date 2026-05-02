@@ -38,7 +38,7 @@ app.get("/history/:email",fetchPrescriptions);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT=3000;
+const PORT = process.env.PORT || 5000;
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
