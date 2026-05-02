@@ -23,8 +23,7 @@ export default function Login() {
 
     setLoading(true);
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://healthscan-ai-2.onrender.com';
-      const res = await fetch(`${API_URL}/api/login`, {
+      const res = await fetch('https://healthscan-ai-2.onrender.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),

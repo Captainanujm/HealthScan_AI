@@ -20,7 +20,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://healthscan-ai-2.onrender.com';
+const API_URL = 'https://healthscan-ai-2.onrender.com';
 
 interface MedicineCard {
   medicine: string;
